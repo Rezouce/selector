@@ -101,4 +101,9 @@ class SelectorSpec extends ObjectBehavior
     {
         $this->get('aggregation.id')->shouldReturn([1, null, 3]);
     }
+
+    function it_should_return_null_if_trying_to_get_a_value_from_a_non_existing_value()
+    {
+        $this->get('this.does.not.exists')->shouldReturn(null);
+    }
 }

@@ -7,12 +7,16 @@ class ArrayParser implements Parser
     /**
      * Parse an array to an array
      *
-     * @param string $data
+     * @param array $data
      * @return array
      * @throws ParserException
      */
     public function parse($data)
     {
+        if (null === $data) {
+            $data = [];
+        }
+
         if (!is_array($data)) {
             throw new ParserException('The data provided is not an array.');
         }

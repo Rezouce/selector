@@ -23,4 +23,9 @@ class ArrayParserSpec extends ObjectBehavior
     {
         $this->shouldThrow('Selector\Parser\ParserException')->duringParse('not-an-array');
     }
+
+    function it_should_return_an_empty_array_if_null_provided()
+    {
+        $this->parse(null)->shouldReturn([]);
+    }
 }
