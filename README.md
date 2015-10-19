@@ -1,6 +1,10 @@
-## Selector
+# Selector
 This library allow to retrieve data from an array or a json string using selectors:
 
+## Installation
+`composer require rezouce/selector`
+
+## Usage
 ```php
 <?php
 use Selector\Selector;
@@ -24,5 +28,4 @@ $selector->get('users[1].name'); // return 'Edward'
 ```
 
 ## License
-
 This library is open-sourced software licensed under the MIT license
