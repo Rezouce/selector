@@ -15,19 +15,36 @@ class Selector
 
     private $index;
 
+    private $parser;
+
     public function __construct($data, Parser $parser)
     {
-        $this->data = $parser->parse($data);
+        $this->data = $parser->decode($data);
+
+        $this->parser = $parser;
     }
 
     /**
      * Get the values from the data provided, matching the selector.
      *
-     * @param string $selector
+     * @param $selector
      * @return mixed
      * @throws SelectorException
      */
     public function get($selector)
+    {
+        return $this->parser->encode($this->getDecodedData($selector));
+    }
+
+    /**
+     * Get the values from the data provided, matching the selector
+     * and return it unencoded.
+     *
+     * @param string $selector
+     * @return mixed
+     * @throws SelectorException
+     */
+    private function getDecodedData($selector)
     {
         $this->selector = $selector;
 
@@ -35,7 +52,7 @@ class Selector
 
         if ($this->hasNextSelector()) {
             try {
-                return (new static($matchingData, new ArrayParser))->get($this->selector);
+                return (new static($matchingData, new ArrayParser))->getDecodedData($this->selector);
             } catch (SelectorException $e) {
                 throw new SelectorException(
                     $e->getRawMessage(),
@@ -189,7 +206,7 @@ class Selector
         $result = [];
 
         foreach ($this->data as $data) {
-            $result[] = (new static($data, new ArrayParser))->get($this->key);
+            $result[] = (new static($data, new ArrayParser))->getDecodedData($this->key);
         }
 
         return $result;

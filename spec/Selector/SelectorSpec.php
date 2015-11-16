@@ -4,12 +4,13 @@ namespace spec\Selector;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Selector\Parser\ArrayParser;
 use Selector\Parser\Parser;
 
 class SelectorSpec extends ObjectBehavior
 {
 
-    function let(Parser $parser)
+    function let()
     {
         $data = [
             'scalar' => 'value',
@@ -39,9 +40,7 @@ class SelectorSpec extends ObjectBehavior
             ]
         ];
 
-        $parser->parse($data)->willReturn($data);
-
-        $this->beConstructedWith($data, $parser);
+        $this->beConstructedWith($data, new ArrayParser);
     }
 
     function it_is_initializable()
@@ -105,5 +104,16 @@ class SelectorSpec extends ObjectBehavior
     function it_should_return_null_if_trying_to_get_a_value_from_a_non_existing_value()
     {
         $this->get('this.does.not.exists')->shouldReturn(null);
+    }
+
+
+    function it_should_encode_data_using_the_parser(Parser $parser)
+    {
+        $parser->decode([])->willReturn([]);
+        $parser->encode(null)->shouldBeCalled();
+
+        $this->beConstructedWith([], $parser);
+
+        $this->get('test');
     }
 }

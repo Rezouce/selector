@@ -4,11 +4,19 @@ namespace Selector\Parser;
 interface Parser
 {
     /**
-     * Parse the data to an array
+     * Decode the data to an array
      *
-     * @param $data
+     * @param mixed $data
      * @return array
      * @throws ParserException
      */
-    public function parse($data);
+    public function decode($data);
+
+    /**
+     * Encode the data.
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function encode($data);
 }

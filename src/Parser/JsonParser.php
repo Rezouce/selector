@@ -5,13 +5,13 @@ class JsonParser implements Parser
 {
 
     /**
-     * Parse a JSON string to an array
+     * Decode a JSON string to an array
      *
      * @param string $data
      * @return array
      * @throws ParserException
      */
-    public function parse($data)
+    public function decode($data)
     {
         $content = json_decode($data, true);
 
@@ -20,5 +20,16 @@ class JsonParser implements Parser
         }
 
         return $content;
+    }
+
+    /**
+     * Encode the data from an array
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function encode($data)
+    {
+        return json_encode($data);
     }
 }

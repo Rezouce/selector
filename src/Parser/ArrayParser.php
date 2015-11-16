@@ -4,14 +4,7 @@ namespace Selector\Parser;
 class ArrayParser implements Parser
 {
 
-    /**
-     * Parse an array to an array
-     *
-     * @param array $data
-     * @return array
-     * @throws ParserException
-     */
-    public function parse($data)
+    public function decode($data)
     {
         if (null === $data) {
             $data = [];
@@ -21,6 +14,11 @@ class ArrayParser implements Parser
             throw new ParserException('The data provided is not an array.');
         }
 
+        return $data;
+    }
+
+    public function encode($data)
+    {
         return $data;
     }
 }

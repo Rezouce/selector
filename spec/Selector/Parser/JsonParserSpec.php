@@ -12,15 +12,22 @@ class JsonParserSpec extends ObjectBehavior
         $this->shouldHaveType('Selector\Parser\JsonParser');
     }
 
-    function it_should_return_json_decode_a_json_string()
+    function it_should_decode_a_json_string()
     {
         $data = ['a', 'valid', ['json' => 'string']];
 
-        $this->parse(json_encode($data))->shouldReturn($data);
+        $this->decode(json_encode($data))->shouldReturn($data);
     }
 
-    function it_should_throws_an_exception_if_the_data_provided_is_not_a_valid_json()
+    function it_should_throws_an_exception_during_decoding_if_the_data_provided_is_not_a_valid_json()
     {
-        $this->shouldThrow('Selector\Parser\ParserException')->duringParse('{Not a valid JSON.}');
+        $this->shouldThrow('Selector\Parser\ParserException')->duringDecode('{Not a valid JSON.}');
+    }
+
+    function it_should_encode_a_json_string()
+    {
+        $data = ['a', 'valid', ['json' => 'string']];
+
+        $this->encode($data)->shouldReturn(json_encode($data));
     }
 }
