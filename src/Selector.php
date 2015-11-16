@@ -97,10 +97,14 @@ class Selector
     {
         $this->updateKey();
 
-        if ($this->isNumeric($this->data)) {
+        // If the data is an numeric array, each value need to be parse individually
+        // and the aggregate results will be returned.
+        if ($this->isNumericArray($this->data)) {
             return $this->aggregateFromNumericArray();
         }
 
+        // If the selector try to access to a specify value from an array,
+        // this value will be returned.
         if ($this->hasIndex()) {
             $this->checkIsNumeric();
             $this->checkIndexExists();
@@ -108,6 +112,8 @@ class Selector
             return $this->data[$this->key][$this->index];
         }
 
+        // If it try to access a scalar value, it will be returned or null
+        // if it doen't exists
         return isset($this->data[$this->key]) ? $this->data[$this->key] : null;
     }
 
@@ -127,7 +133,7 @@ class Selector
      * @param array $array
      * @return bool
      */
-    private function isNumeric(array $array)
+    private function isNumericArray(array $array)
     {
         return is_array($array) && (array_keys($array) === range(0, count($array) - 1));
     }
@@ -164,7 +170,7 @@ class Selector
      */
     private function checkIsNumeric()
     {
-        if (!$this->isNumeric($this->data[$this->key])) {
+        if (!$this->isNumericArray($this->data[$this->key])) {
             throw new SelectorException(
                 'You tried to access an index "%s" when the data are not an associative array.',
                 $this->key . '[' . $this->index . ']'
